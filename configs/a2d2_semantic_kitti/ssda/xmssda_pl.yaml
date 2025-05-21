@@ -10,7 +10,7 @@ DATASET_SOURCE:
   TYPE: "A2D2SCN"
   TRAIN: ("train",)
   A2D2SCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/a2d2_preprocess"
+    preprocess_dir: "data/a2d2_preprocess"
 DATASET_TARGET:
   TYPE: "SemanticKITTISCN"
   TRAIN_LABELED: ("train_labeled",)
@@ -18,8 +18,8 @@ DATASET_TARGET:
   VAL: ("val",)
   TEST: ("test",)
   SemanticKITTISCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess/preprocess"
-    semantic_kitti_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess"
+    preprocess_dir: "data/semantic_kitti_preprocess/preprocess"
+    semantic_kitti_dir: "data/semantic_kitti_preprocess"
     pselab_paths: ("/home/docker_user/workspace/outputs/xmuda_journal/a2d2_semantic_kitti/ssda/xmssda/pselab_data/train_unlabeled.npy",)
 DATALOADER:
   NUM_WORKERS: 4

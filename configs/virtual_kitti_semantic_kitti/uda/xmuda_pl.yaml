@@ -10,16 +10,16 @@ DATASET_SOURCE:
   TYPE: "VirtualKITTISCN"
   TRAIN: ("train",)
   VirtualKITTISCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/virtual_kitti_preprocess/preprocess"
-    virtual_kitti_dir: "/datasets_local/datasets_mjaritz/virtual_kitti_preprocess"
+    preprocess_dir: "data/virtual_kitti_preprocess/preprocess"
+    virtual_kitti_dir: "data/virtual_kitti_preprocess"
 DATASET_TARGET:
   TYPE: "SemanticKITTISCN"
   TRAIN: ("train",)
   VAL: ("val",)
   TEST: ("test",)
   SemanticKITTISCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess/preprocess"
-    semantic_kitti_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess"
+    preprocess_dir: "data/semantic_kitti_preprocess/preprocess"
+    semantic_kitti_dir: "data/semantic_kitti_preprocess"
     merge_classes_style: "VirtualKITTI"
     pselab_paths: ("/home/docker_user/workspace/outputs/xmuda_journal/virtual_kitti_semantic_kitti/uda/xmuda/pselab_data/train.npy",)
 DATALOADER:

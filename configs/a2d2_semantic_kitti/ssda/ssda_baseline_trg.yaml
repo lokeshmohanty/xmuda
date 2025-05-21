@@ -8,15 +8,15 @@ DATASET_SOURCE:
   TYPE: "SemanticKITTISCN"
   TRAIN: ("train_labeled",)
   SemanticKITTISCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess/preprocess"
-    semantic_kitti_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess"
+    preprocess_dir: "data/semantic_kitti_preprocess/preprocess"
+    semantic_kitti_dir: "data/semantic_kitti_preprocess"
 DATASET_TARGET:
   TYPE: "SemanticKITTISCN"
   VAL: ("val",)
   TEST: ("test",)
   SemanticKITTISCN:
-    preprocess_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess/preprocess"
-    semantic_kitti_dir: "/datasets_local/datasets_mjaritz/semantic_kitti_preprocess"
+    preprocess_dir: "data/semantic_kitti_preprocess/preprocess"
+    semantic_kitti_dir: "data/semantic_kitti_preprocess"
 DATALOADER:
   NUM_WORKERS: 4
 OPTIMIZER:

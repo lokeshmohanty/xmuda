@@ -276,8 +276,8 @@ class VirtualKITTISCN(VirtualKITTIBase):
 
 def test_VirtualKITTISCN():
     from xmuda.data.utils.visualize import draw_points_image_labels, draw_bird_eye_view
-    preprocess_dir = '/datasets_local/datasets_mjaritz/virtual_kitti_preprocess/preprocess'
-    virtual_kitti_dir = '/datasets_local/datasets_mjaritz/virtual_kitti_preprocess'
+    preprocess_dir = 'data/virtual_kitti_preprocess/preprocess'
+    virtual_kitti_dir = 'data/virtual_kitti_preprocess'
     split = ('mini',)
     dataset = VirtualKITTISCN(split=split,
                               preprocess_dir=preprocess_dir,
@@ -308,7 +308,7 @@ def test_VirtualKITTISCN():
 
 
 def compute_class_weights():
-    preprocess_dir = '/datasets_local/datasets_mjaritz/virtual_kitti_preprocess/preprocess'
+    preprocess_dir = 'data/virtual_kitti_preprocess/preprocess'
     split = ('train',)
     dataset = VirtualKITTIBase(split,
                                preprocess_dir,

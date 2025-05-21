@@ -95,5 +95,5 @@ def preprocess(split_name, root_dir, out_dir):
 
 if __name__ == '__main__':
     root_dir = '/datasets_master/virtual_kitti'
-    out_dir = '/datasets_local/datasets_mjaritz/virtual_kitti_preprocess'
+    out_dir = 'data/virtual_kitti_preprocess'
     preprocess('train', root_dir, out_dir)

@@ -213,7 +213,7 @@ def print_frames_per_scene(root_dir):
 
 if __name__ == '__main__':
     root_dir = '/datasets_master/a2d2'
-    out_dir = '/datasets_local/datasets_mjaritz/a2d2_preprocess'
+    out_dir = 'data/a2d2_preprocess'
     preprocess('test', root_dir, out_dir)
     # split into train1 and train2 to prevent segmentation fault in torch dataloader
     preprocess('train1', root_dir, out_dir)
