@@ -29,36 +29,38 @@ NUSCENES_COLOR_PALETTE_SHORT = [
     (200, 200, 200),  # background
 ]
 
-NUSCENES_LIDARSEG_COLOR_PALETTE_DICT = OrderedDict([
-    ('ignore', (0, 0, 0)),  # Black
-    ('barrier', (112, 128, 144)),  # Slategrey
-    ('bicycle', (220, 20, 60)),  # Crimson
-    ('bus', (255, 127, 80)),  # Coral
-    ('car', (255, 158, 0)),  # Orange
-    ('construction_vehicle', (233, 150, 70)),  # Darksalmon
-    ('motorcycle', (255, 61, 99)),  # Red
-    ('pedestrian', (0, 0, 230)),  # Blue
-    ('traffic_cone', (47, 79, 79)),  # Darkslategrey
-    ('trailer', (255, 140, 0)),  # Darkorange
-    ('truck', (255, 99, 71)),  # Tomato
-    ('driveable_surface', (0, 207, 191)),  # nuTonomy green
-    ('other_flat', (175, 0, 75)),
-    ('sidewalk', (75, 0, 75)),
-    ('terrain', (112, 180, 60)),
-    ('manmade', (222, 184, 135)),  # Burlywood
-    ('vegetation', (0, 175, 0))  # Green
-])
+NUSCENES_LIDARSEG_COLOR_PALETTE_DICT = OrderedDict(
+    [
+        ("ignore", (0, 0, 0)),  # Black
+        ("barrier", (112, 128, 144)),  # Slategrey
+        ("bicycle", (220, 20, 60)),  # Crimson
+        ("bus", (255, 127, 80)),  # Coral
+        ("car", (255, 158, 0)),  # Orange
+        ("construction_vehicle", (233, 150, 70)),  # Darksalmon
+        ("motorcycle", (255, 61, 99)),  # Red
+        ("pedestrian", (0, 0, 230)),  # Blue
+        ("traffic_cone", (47, 79, 79)),  # Darkslategrey
+        ("trailer", (255, 140, 0)),  # Darkorange
+        ("truck", (255, 99, 71)),  # Tomato
+        ("driveable_surface", (0, 207, 191)),  # nuTonomy green
+        ("other_flat", (175, 0, 75)),
+        ("sidewalk", (75, 0, 75)),
+        ("terrain", (112, 180, 60)),
+        ("manmade", (222, 184, 135)),  # Burlywood
+        ("vegetation", (0, 175, 0)),  # Green
+    ]
+)
 
 NUSCENES_LIDARSEG_COLOR_PALETTE = list(NUSCENES_LIDARSEG_COLOR_PALETTE_DICT.values())
 
 NUSCENES_LIDARSEG_COLOR_PALETTE_SHORT = [
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['car'],  # vehicle
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['driveable_surface'],
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['sidewalk'],
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['terrain'],
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['manmade'],
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['vegetation'],
-    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT['ignore']
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["car"],  # vehicle
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["driveable_surface"],
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["sidewalk"],
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["terrain"],
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["manmade"],
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["vegetation"],
+    NUSCENES_LIDARSEG_COLOR_PALETTE_DICT["ignore"],
 ]
 
 
@@ -74,48 +76,50 @@ A2D2_COLOR_PALETTE_SHORT = [
     (241, 230, 255),  # building
     (147, 253, 194),  # nature
     (255, 246, 143),  # other-objects
-    (0, 0, 0)  # ignore
+    (0, 0, 0),  # ignore
 ]
 
 # colors as defined in https://github.com/PRBonn/semantic-kitti-api/blob/master/config/semantic-kitti.yaml
 SEMANTIC_KITTI_ID_TO_BGR = {  # bgr
-  0: [0, 0, 0],
-  1: [0, 0, 255],
-  10: [245, 150, 100],
-  11: [245, 230, 100],
-  13: [250, 80, 100],
-  15: [150, 60, 30],
-  16: [255, 0, 0],
-  18: [180, 30, 80],
-  20: [255, 0, 0],
-  30: [30, 30, 255],
-  31: [200, 40, 255],
-  32: [90, 30, 150],
-  40: [255, 0, 255],
-  44: [255, 150, 255],
-  48: [75, 0, 75],
-  49: [75, 0, 175],
-  50: [0, 200, 255],
-  51: [50, 120, 255],
-  52: [0, 150, 255],
-  60: [170, 255, 150],
-  70: [0, 175, 0],
-  71: [0, 60, 135],
-  72: [80, 240, 150],
-  80: [150, 240, 255],
-  81: [0, 0, 255],
-  99: [255, 255, 50],
-  252: [245, 150, 100],
-  256: [255, 0, 0],
-  253: [200, 40, 255],
-  254: [30, 30, 255],
-  255: [90, 30, 150],
-  257: [250, 80, 100],
-  258: [180, 30, 80],
-  259: [255, 0, 0],
+    0: [0, 0, 0],
+    1: [0, 0, 255],
+    10: [245, 150, 100],
+    11: [245, 230, 100],
+    13: [250, 80, 100],
+    15: [150, 60, 30],
+    16: [255, 0, 0],
+    18: [180, 30, 80],
+    20: [255, 0, 0],
+    30: [30, 30, 255],
+    31: [200, 40, 255],
+    32: [90, 30, 150],
+    40: [255, 0, 255],
+    44: [255, 150, 255],
+    48: [75, 0, 75],
+    49: [75, 0, 175],
+    50: [0, 200, 255],
+    51: [50, 120, 255],
+    52: [0, 150, 255],
+    60: [170, 255, 150],
+    70: [0, 175, 0],
+    71: [0, 60, 135],
+    72: [80, 240, 150],
+    80: [150, 240, 255],
+    81: [0, 0, 255],
+    99: [255, 255, 50],
+    252: [245, 150, 100],
+    256: [255, 0, 0],
+    253: [200, 40, 255],
+    254: [30, 30, 255],
+    255: [90, 30, 150],
+    257: [250, 80, 100],
+    258: [180, 30, 80],
+    259: [255, 0, 0],
 }
-SEMANTIC_KITTI_COLOR_PALETTE = [SEMANTIC_KITTI_ID_TO_BGR[id] if id in SEMANTIC_KITTI_ID_TO_BGR.keys() else [0, 0, 0]
-                                for id in range(list(SEMANTIC_KITTI_ID_TO_BGR.keys())[-1] + 1)]
+SEMANTIC_KITTI_COLOR_PALETTE = [
+    SEMANTIC_KITTI_ID_TO_BGR[id] if id in SEMANTIC_KITTI_ID_TO_BGR.keys() else [0, 0, 0]
+    for id in range(list(SEMANTIC_KITTI_ID_TO_BGR.keys())[-1] + 1)
+]
 
 
 # classes after merging (as used in xMUDA)
@@ -132,7 +136,9 @@ SEMANTIC_KITTI_COLOR_PALETTE_SHORT_BGR = [
     [255, 255, 50],  # other-objects
     [0, 0, 0],  # ignore
 ]
-SEMANTIC_KITTI_COLOR_PALETTE_SHORT = [(c[2], c[1], c[0]) for c in SEMANTIC_KITTI_COLOR_PALETTE_SHORT_BGR]
+SEMANTIC_KITTI_COLOR_PALETTE_SHORT = [
+    (c[2], c[1], c[0]) for c in SEMANTIC_KITTI_COLOR_PALETTE_SHORT_BGR
+]
 
 VIRTUAL_KITTI_COLOR_PALETTE = [
     [0, 175, 0],  # vegetation_terrain
@@ -154,33 +160,40 @@ WAYMO_COLOR_PALETTE = [
 ]
 
 
-def draw_points_image_labels(img, img_indices, seg_labels, show=True, color_palette_type='NuScenes', point_size=0.5):
-    if color_palette_type == 'NuScenes':
+def draw_points_image_labels(
+    img,
+    img_indices,
+    seg_labels,
+    show=True,
+    color_palette_type="NuScenes",
+    point_size=0.5,
+):
+    if color_palette_type == "NuScenes":
         color_palette = NUSCENES_COLOR_PALETTE_SHORT
-    elif color_palette_type == 'NuScenesLidarSeg':
+    elif color_palette_type == "NuScenesLidarSeg":
         color_palette = NUSCENES_LIDARSEG_COLOR_PALETTE_SHORT
-    elif color_palette_type == 'NuScenesLidarSegLong':
+    elif color_palette_type == "NuScenesLidarSegLong":
         color_palette = NUSCENES_LIDARSEG_COLOR_PALETTE
-    elif color_palette_type == 'A2D2':
+    elif color_palette_type == "A2D2":
         color_palette = A2D2_COLOR_PALETTE_SHORT
-    elif color_palette_type == 'SemanticKITTI':
+    elif color_palette_type == "SemanticKITTI":
         color_palette = SEMANTIC_KITTI_COLOR_PALETTE_SHORT
-    elif color_palette_type == 'SemanticKITTI_long':
+    elif color_palette_type == "SemanticKITTI_long":
         color_palette = SEMANTIC_KITTI_COLOR_PALETTE
-    elif color_palette_type == 'VirtualKITTI':
+    elif color_palette_type == "VirtualKITTI":
         color_palette = VIRTUAL_KITTI_COLOR_PALETTE
-    elif color_palette_type == 'Waymo':
+    elif color_palette_type == "Waymo":
         color_palette = WAYMO_COLOR_PALETTE
     else:
-        raise NotImplementedError('Color palette type not supported')
-    color_palette = np.array(color_palette) / 255.
+        raise NotImplementedError("Color palette type not supported")
+    color_palette = np.array(color_palette) / 255.0
     seg_labels[seg_labels == -100] = len(color_palette) - 1
     colors = color_palette[seg_labels]
 
     plt.imshow(img)
     plt.scatter(img_indices[:, 1], img_indices[:, 0], c=colors, alpha=0.5, s=point_size)
 
-    plt.axis('off')
+    plt.axis("off")
     plt.tight_layout()
 
     if show:
@@ -203,7 +216,7 @@ def draw_points_image_depth(img, img_indices, depth, show=True, point_size=0.5):
     plt.imshow(img)
     plt.scatter(img_indices[:, 1], img_indices[:, 0], c=colors, alpha=0.5, s=point_size)
 
-    plt.axis('off')
+    plt.axis("off")
 
     if show:
         plt.show()
@@ -213,5 +226,5 @@ def draw_bird_eye_view(coords, full_scale=4096):
     plt.scatter(coords[:, 0], coords[:, 1], s=0.1)
     plt.xlim([0, full_scale])
     plt.ylim([0, full_scale])
-    plt.gca().set_aspect('equal', adjustable='box')
+    plt.gca().set_aspect("equal", adjustable="box")
     plt.show()

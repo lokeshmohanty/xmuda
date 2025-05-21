@@ -19,14 +19,15 @@ class Checkpointer(object):
 
     """
 
-    def __init__(self,
-                 model,
-                 optimizer=None,
-                 scheduler=None,
-                 save_dir='',
-                 logger=None,
-                 postfix=''
-                 ):
+    def __init__(
+        self,
+        model,
+        optimizer=None,
+        scheduler=None,
+        save_dir="",
+        logger=None,
+        postfix="",
+    ):
         self.model = model
         self.optimizer = optimizer
         self.scheduler = scheduler
@@ -42,17 +43,17 @@ class Checkpointer(object):
 
         data = dict()
         if isinstance(self.model, (DataParallel, DistributedDataParallel)):
-            data['model'] = self.model.module.state_dict()
+            data["model"] = self.model.module.state_dict()
         else:
-            data['model'] = self.model.state_dict()
+            data["model"] = self.model.state_dict()
         if self.optimizer is not None:
-            data['optimizer'] = self.optimizer.state_dict()
+            data["optimizer"] = self.optimizer.state_dict()
         if self.scheduler is not None:
-            data['scheduler'] = self.scheduler.state_dict()
+            data["scheduler"] = self.scheduler.state_dict()
         data.update(kwargs)
 
-        save_file = os.path.join(self.save_dir, '{}.pth'.format(name))
-        self._print('Saving checkpoint to {}'.format(os.path.abspath(save_file)))
+        save_file = os.path.join(self.save_dir, "{}.pth".format(name))
+        self._print("Saving checkpoint to {}".format(os.path.abspath(save_file)))
         torch.save(data, save_file)
         if tag:
             self.tag_last_checkpoint(save_file)
@@ -63,23 +64,23 @@ class Checkpointer(object):
             path = self.get_checkpoint_file()
         if not path:
             # no checkpoint could be found
-            self._print('No checkpoint found. Initializing model from scratch')
+            self._print("No checkpoint found. Initializing model from scratch")
             return {}
 
-        self._print('Loading checkpoint from {}, MD5: {}'.format(path, get_md5(path)))
+        self._print("Loading checkpoint from {}, MD5: {}".format(path, get_md5(path)))
         checkpoint = self._load_file(path)
 
         if isinstance(self.model, (DataParallel, DistributedDataParallel)):
-            self.model.module.load_state_dict(checkpoint.pop('model'))
+            self.model.module.load_state_dict(checkpoint.pop("model"))
         else:
-            self.model.load_state_dict(checkpoint.pop('model'))
+            self.model.load_state_dict(checkpoint.pop("model"))
         if resume_states:
-            if 'optimizer' in checkpoint and self.optimizer:
-                self.logger.info('Loading optimizer from {}'.format(path))
-                self.optimizer.load_state_dict(checkpoint.pop('optimizer'))
-            if 'scheduler' in checkpoint and self.scheduler:
-                self.logger.info('Loading scheduler from {}'.format(path))
-                self.scheduler.load_state_dict(checkpoint.pop('scheduler'))
+            if "optimizer" in checkpoint and self.optimizer:
+                self.logger.info("Loading optimizer from {}".format(path))
+                self.optimizer.load_state_dict(checkpoint.pop("optimizer"))
+            if "scheduler" in checkpoint and self.scheduler:
+                self.logger.info("Loading scheduler from {}".format(path))
+                self.scheduler.load_state_dict(checkpoint.pop("scheduler"))
         else:
             checkpoint = {}
 
@@ -87,13 +88,13 @@ class Checkpointer(object):
         return checkpoint
 
     def has_checkpoint(self):
-        save_file = os.path.join(self.save_dir, 'last_checkpoint' + self.postfix)
+        save_file = os.path.join(self.save_dir, "last_checkpoint" + self.postfix)
         return os.path.exists(save_file)
 
     def get_checkpoint_file(self):
-        save_file = os.path.join(self.save_dir, 'last_checkpoint' + self.postfix)
+        save_file = os.path.join(self.save_dir, "last_checkpoint" + self.postfix)
         try:
-            with open(save_file, 'r') as f:
+            with open(save_file, "r") as f:
                 last_saved = f.read()
             # If not absolute path, add save_dir as prefix
             if not os.path.isabs(last_saved):
@@ -101,19 +102,19 @@ class Checkpointer(object):
         except IOError:
             # If file doesn't exist, maybe because it has just been
             # deleted by a separate process
-            last_saved = ''
+            last_saved = ""
         return last_saved
 
     def tag_last_checkpoint(self, last_filename):
-        save_file = os.path.join(self.save_dir, 'last_checkpoint' + self.postfix)
+        save_file = os.path.join(self.save_dir, "last_checkpoint" + self.postfix)
         # If not absolute path, only save basename
         if not os.path.isabs(last_filename):
             last_filename = os.path.basename(last_filename)
-        with open(save_file, 'w') as f:
+        with open(save_file, "w") as f:
             f.write(last_filename)
 
     def _load_file(self, path):
-        return torch.load(path, map_location=torch.device('cpu'))
+        return torch.load(path, map_location=torch.device("cpu"), weights_only=False)
 
 
 class CheckpointerV2(Checkpointer):
@@ -125,18 +126,18 @@ class CheckpointerV2(Checkpointer):
         self._last_checkpoints = []
 
     def get_checkpoint_file(self):
-        save_file = os.path.join(self.save_dir, 'last_checkpoint' + self.postfix)
+        save_file = os.path.join(self.save_dir, "last_checkpoint" + self.postfix)
         try:
             self._last_checkpoints = self._load_last_checkpoints(save_file)
             last_saved = self._last_checkpoints[-1]
         except (IOError, IndexError):
             # If file doesn't exist, maybe because it has just been
             # deleted by a separate process
-            last_saved = ''
+            last_saved = ""
         return last_saved
 
     def tag_last_checkpoint(self, last_filename):
-        save_file = os.path.join(self.save_dir, 'last_checkpoint' + self.postfix)
+        save_file = os.path.join(self.save_dir, "last_checkpoint" + self.postfix)
         # Remove first from list if the same name was used before.
         for path in self._last_checkpoints:
             if last_filename == path:
@@ -157,18 +158,18 @@ class CheckpointerV2(Checkpointer):
                 logging.warning("Ignoring: %s", str(e))
 
     def _save_checkpoint_file(self, path):
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             lines = []
             for p in self._last_checkpoints:
                 if not os.path.isabs(p):
                     # If not absolute path, only save basename
                     p = os.path.basename(p)
                 lines.append(p)
-            f.write('\n'.join(lines))
+            f.write("\n".join(lines))
 
     def _load_last_checkpoints(self, path):
         last_checkpoints = []
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             for p in f.readlines():
                 if not os.path.isabs(p):
                     # If not absolute path, add save_dir as prefix
