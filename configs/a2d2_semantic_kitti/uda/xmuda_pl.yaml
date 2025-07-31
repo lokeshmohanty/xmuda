@@ -19,7 +19,7 @@ DATASET_TARGET:
   SemanticKITTISCN:
     preprocess_dir: "data/semantic_kitti_preprocess/preprocess"
     semantic_kitti_dir: "data/semantic_kitti_preprocess"
-    pselab_paths: ("/home/docker_user/workspace/outputs/xmuda_journal/a2d2_semantic_kitti/uda/xmuda/pselab_data/train.npy",)
+    pselab_paths: ("/home/lokesh/workspace/outputs/xmuda_journal/a2d2_semantic_kitti/uda/xmuda/pselab_data/train.npy",)
 DATALOADER:
   NUM_WORKERS: 4
 OPTIMIZER:

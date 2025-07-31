@@ -10,6 +10,9 @@ import numpy as np
 
 import torch
 import torch.nn.functional as F
+from torch.utils.tensorboard import SummaryWriter
+from clearml import Task, TaskTypes
+from aim.ext.tensorboard_tracker import Run
 
 from xmuda.common.utils.checkpoint import CheckpointerV2
 from xmuda.common.utils.logger import setup_logger
@@ -48,12 +51,12 @@ def parse_args():
         action="store_true",
         help="Whether to save the 2D+3D ensembling pseudo labels.",
     )
-    # parser.add_argument(
-    #     "opts",
-    #     help="Modify config options using the command-line",
-    #     default=None,
-    #     nargs=argparse.REMAINDER,
-    # )
+    parser.add_argument(
+        "opts",
+        help="Modify config options using the command-line",
+        default=None,
+        nargs=argparse.REMAINDER,
+    )
     args = parser.parse_args()
     return args
 
@@ -174,7 +177,7 @@ def predict(cfg, model_2d, model_3d, dataloader, pselab_path, save_ensemble=Fals
         logger.info("Saved pseudo label data to {}".format(pselab_path))
 
 
-def test(cfg, args, output_dir=""):
+def test(cfg, args, output_dir="", summary_writer=None):
     logger = logging.getLogger("xmuda.test")
 
     # build 2d model
@@ -214,6 +217,7 @@ def test(cfg, args, output_dir=""):
         assert len(cfg.DATASET_TARGET.TEST) == 1
         pselab_path = osp.join(pselab_dir, cfg.DATASET_TARGET.TEST[0] + ".npy")
 
+
     # ---------------------------------------------------------------------------- #
     # Test
     # ---------------------------------------------------------------------------- #
@@ -235,6 +239,7 @@ def test(cfg, args, output_dir=""):
             test_dataloader,
             test_metric_logger,
             pselab_path=pselab_path,
+            summary_writer=summary_writer,
         )
 
 
@@ -251,6 +256,30 @@ def main():
     purge_cfg(cfg)
     cfg.freeze()
 
+    if not args.pselab:
+        task = Task.init(
+            project_name="PhD Thesis/3D Semantic Segmentation",
+            task_name=cfg.TRACK.RUN,
+            task_type=TaskTypes.testing,
+            reuse_last_task_id=False,
+            tags=[
+                "data:nuscenes-usa-singapore",
+                # "data:nuscenes-day-night",
+                "test",
+            ],
+            auto_connect_frameworks={
+                "tensorboard": True,
+                "matplotlib": True,
+                "pytorch": True,
+            },
+        )
+        task.connect_configuration(cfg)
+
+    # run name
+    timestamp = time.strftime("%m-%d_%H-%M-%S")
+    hostname = socket.gethostname()
+    run_name = "{:s}.{:s}".format(timestamp, hostname)
+
     output_dir = cfg.OUTPUT_DIR
     # replace '@' with config path
     if output_dir:
@@ -260,10 +289,20 @@ def main():
             warnings.warn("Make a new directory: {}".format(output_dir))
             os.makedirs(output_dir)
 
-    # run name
-    timestamp = time.strftime("%m-%d_%H-%M-%S")
-    hostname = socket.gethostname()
-    run_name = "{:s}.{:s}".format(timestamp, hostname)
+
+        # build tensorboard logger (optionally by comment)
+        tb_dir = osp.join(output_dir, "tb.{:s}".format(run_name))
+        summary_writer = SummaryWriter(tb_dir)
+        aim_run = Run(
+            repo=cfg.TRACK.URI, 
+            experiment=cfg.TRACK.EXPERIMENT,
+            sync_tensorboard_log_dir=tb_dir
+        )
+        aim_run.add_tag(cfg.TRACK.RUN)
+        aim_run.add_tag("test")
+        for tag in cfg.TRACK.TAGS: 
+            aim_run.add_tag(tag)
+
 
     logger = setup_logger("xmuda", output_dir, comment="test.{:s}".format(run_name))
     logger.info("{:d} GPUs available".format(torch.cuda.device_count()))
@@ -273,7 +312,7 @@ def main():
     logger.info("Running with config:\n{}".format(cfg))
 
     assert cfg.MODEL_2D.DUAL_HEAD == cfg.MODEL_3D.DUAL_HEAD
-    test(cfg, args, output_dir)
+    test(cfg, args, output_dir, summary_writer)
 
 
 if __name__ == "__main__":

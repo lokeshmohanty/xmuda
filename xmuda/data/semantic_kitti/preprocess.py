@@ -199,7 +199,7 @@ def print_frames_per_scene(root_dir):
 
 
 if __name__ == '__main__':
-    root_dir = '/datasets_master/semantic_kitti'
+    root_dir = 'data/semantic_kitti'
     out_dir = 'data/semantic_kitti_preprocess'
     preprocess('val', root_dir, out_dir)
     preprocess('train', root_dir, out_dir)

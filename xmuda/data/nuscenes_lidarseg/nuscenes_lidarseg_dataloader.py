@@ -296,9 +296,9 @@ def test_NuScenesSCN():
     preprocess_dir = "data/processed/nuscenes/preprocess"
     nuscenes_dir = "data/nuscenes"
     # # split = ('train_singapore',)
-    # # pselab_paths = ('/home/docker_user/workspace/outputs/xmuda/nuscenes/usa_singapore/xmuda/pselab_data/train_singapore.npy',)
+    # # pselab_paths = ('/home/lokesh/workspace/outputs/xmuda/nuscenes/usa_singapore/xmuda/pselab_data/train_singapore.npy',)
     # # split = ('train_night',)
-    # # pselab_paths = ('/home/docker_user/workspace/outputs/xmuda/nuscenes/day_night/xmuda/pselab_data/train_night.npy',)
+    # # pselab_paths = ('/home/lokesh/workspace/outputs/xmuda/nuscenes/day_night/xmuda/pselab_data/train_night.npy',)
     # split = ('val_night',)
     split = ("test_singapore",)
     dataset = NuScenesLidarSegSCN(

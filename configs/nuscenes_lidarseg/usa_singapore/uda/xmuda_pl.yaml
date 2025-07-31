@@ -20,7 +20,7 @@ DATASET_TARGET:
   NuScenesLidarSegSCN:
     preprocess_dir: "data/nuscenes_lidarseg_preprocess/preprocess"
     nuscenes_dir: "data/nuscenes"  # only front cam images are needed
-    pselab_paths: ("/home/docker_user/workspace/outputs/xmuda_journal/nuscenes_lidarseg/usa_singapore/uda/xmuda/pselab_data/train_singapore.npy",)
+    pselab_paths: ("/home/lokesh/workspace/outputs/xmuda_journal/nuscenes_lidarseg/usa_singapore/uda/xmuda/pselab_data/train_singapore.npy",)
 DATALOADER:
   NUM_WORKERS: 4
 OPTIMIZER:

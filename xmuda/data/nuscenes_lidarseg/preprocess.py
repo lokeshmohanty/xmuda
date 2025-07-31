@@ -181,7 +181,7 @@ def preprocess(
 if __name__ == "__main__":
     root_dir = "data/nuscenes"
     out_dir = "data/nuscenes_lidarseg_preprocess"
-    nusc = NuScenes(version="v1.0-mini", dataroot=root_dir, verbose=True)
+    nusc = NuScenes(version="v1.0-trainval", dataroot=root_dir, verbose=True)
     # for faster debugging, the script can be run using the mini dataset
     # nusc = NuScenes(version='v1.0-mini', dataroot=root_dir, verbose=True)
     # We construct the splits by using the meta data of NuScenes:

@@ -11,6 +11,7 @@ import torch
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 from clearml import Task
+from aim.ext.tensorboard_tracker import Run
 
 from xmuda.common.solver.build import build_optimizer, build_scheduler
 from xmuda.common.utils.checkpoint import CheckpointerV2
@@ -21,13 +22,6 @@ from xmuda.models.build import build_model_2d, build_model_3d
 from xmuda.data.build import build_dataloader
 from xmuda.data.utils.validate import validate
 from xmuda.models.losses import entropy_loss
-
-task = Task.init(
-    project_name="PhD Thesis/3D Semantic Segmentation",
-    task_name="xMUDA",
-    tags=["data:nuscenes-day-night"],
-    auto_connect_frameworks={"tensorboard": True, "matplotlib": True, "pytorch": True},
-)
 
 
 def parse_args():
@@ -125,6 +119,15 @@ def train(cfg, output_dir="", run_name=""):
     if output_dir:
         tb_dir = osp.join(output_dir, "tb.{:s}".format(run_name))
         summary_writer = SummaryWriter(tb_dir)
+        aim_run = Run(
+            repo=cfg.TRACK.URI, 
+            experiment=cfg.TRACK.EXPERIMENT,
+            name=cfg.TRACK.RUN,
+            sync_tensorboard_log_dir=tb_dir
+        )
+        aim_run.add_tag("train")
+        for tag in cfg.TRACK.TAGS: 
+            aim_run.add_tag(tag)
     else:
         summary_writer = None
 
@@ -480,6 +483,23 @@ def main():
     cfg.merge_from_list(args.opts)
     purge_cfg(cfg)
     cfg.freeze()
+
+    task = Task.init(
+        project_name="PhD Thesis/3D Semantic Segmentation",
+        task_name="xMUDA",
+        reuse_last_task_id=False,
+        tags=[
+            "data:nuscenes-usa-singapore",
+            # "data:nuscenes-day-night",
+            "v1.0-trainval",
+        ],
+        auto_connect_frameworks={
+            "tensorboard": True,
+            "matplotlib": True,
+            "pytorch": True,
+        },
+    )
+    task.connect_configuration(cfg)
 
     output_dir = cfg.OUTPUT_DIR
     # replace '@' with config path

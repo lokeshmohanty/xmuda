@@ -42,4 +42,4 @@ TRAIN:
 VAL:
   BATCH_SIZE: 32
   PERIOD: 5000
-#OUTPUT_DIR: "path/to/output/directory/@"  #  @ will be replaced with config path, e.g. nuscenes/usa_singapore/xmuda
+# OUTPUT_DIR: "/home/lokesh/workspace/@"  #  @ will be replaced with config path, e.g. nuscenes/usa_singapore/xmuda

@@ -6,6 +6,9 @@ _ext
 build/
 dist/
 *.egg-info/
+checkpoints/
+data/
+runs/
 
 # Pycharm editor settings
 .idea

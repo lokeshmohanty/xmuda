@@ -28,6 +28,11 @@ _C.TRAIN.XMUDA.lambda_minent = 0.0
 _C.TRAIN.XMUDA.lambda_logcoral = 0.0
 _C.TRAIN.XMUDA.beta_fda = 0.0
 _C.TRAIN.XMUDA.lambda_robust_ent = 0.0
+_C.TRAIN.XMUDA.mmtta = False
+_C.TRAIN.XMUDA.hard_ensemble = True
+_C.TRAIN.XMUDA.lambda_mmtta = 0.0
+_C.TRAIN.XMUDA.lambda_pl = 0.0
+_C.TRAIN.XMUDA.lambda_xm = 0.0
 
 # ---------------------------------------------------------------------------- #
 # Datasets
