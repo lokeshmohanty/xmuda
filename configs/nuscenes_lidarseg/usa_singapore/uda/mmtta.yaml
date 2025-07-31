@@ -1,0 +1,56 @@
+TRACK:
+  RUN: "MMTTA"
+  TAGS: ["nuscenes/usa_singapore"]
+MODEL_2D:
+  TYPE: "UNetResNet34"
+  NUM_CLASSES: 6
+  DUAL_HEAD: False
+  CKPT_PATH: "/home/lokesh/workspace/outputs/xmuda_journal/nuscenes_lidarseg/usa_singapore/uda/baseline/model_2d_100000.pth"
+MODEL_3D:
+  TYPE: "SCN"
+  NUM_CLASSES: 6
+  DUAL_HEAD: False
+  CKPT_PATH: "/home/lokesh/workspace/outputs/xmuda_journal/nuscenes_lidarseg/usa_singapore/uda/baseline/model_3d_100000.pth"
+DATASET_SOURCE:
+  TYPE: "NuScenesLidarSegSCN"
+  TRAIN: ("train_usa",)
+  NuScenesLidarSegSCN:
+    preprocess_dir: "data/nuscenes_lidarseg_preprocess/preprocess"
+    nuscenes_dir: "data/nuscenes"  # only front cam images are needed
+DATASET_TARGET:
+  TYPE: "NuScenesLidarSegSCN"
+  TRAIN: ("train_singapore",)
+  VAL: ("val_singapore",)
+  TEST: ("test_singapore",)
+  NuScenesLidarSegSCN:
+    preprocess_dir: "data/nuscenes_lidarseg_preprocess/preprocess"
+    nuscenes_dir: "data/nuscenes"  # only front cam images are needed
+DATALOADER:
+  NUM_WORKERS: 4
+OPTIMIZER:
+  TYPE: "Adam"
+  BASE_LR: 0.001
+SCHEDULER:
+  TYPE: "MultiStepLR"
+  MultiStepLR:
+    gamma: 0.1
+    milestones: (80000, 90000)
+  MAX_ITERATION: 100000
+TRAIN:
+  BATCH_SIZE: 8
+  SUMMARY_PERIOD: 50
+  CHECKPOINT_PERIOD: 5000
+  CLASS_WEIGHTS: [1.9241476, 1., 2.16763851, 2.78254323, 1.54875664, 1.85686537]
+  XMUDA:
+    mmtta: True
+    hard_ensemble: True
+    lambda_mmtta: 0.99
+    lambda_pl: 1.0
+    lambda_xm: 0.1
+VAL:
+  BATCH_SIZE: 32
+  PERIOD: 5000
+
+# OUTPUT_DIR: "runs/@"
+#OUTPUT_DIR: "path/to/output/directory/@"  #  @ will be replaced with config path, e.g. nuscenes/usa_singapore/xmuda
+
