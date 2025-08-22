@@ -13,7 +13,6 @@ import torch
 import torch.nn.functional as F
 import sparseconvnet as scn
 from torch.utils.tensorboard import SummaryWriter
-from clearml import Task
 from aim.ext.tensorboard_tracker import Run
 
 
@@ -119,6 +118,7 @@ def mmtta(cfg, output_dir="", run_name=""):
             experiment=cfg.TRACK.EXPERIMENT,
             sync_tensorboard_log_dir=tb_dir
         )
+        aim_run['config'] = cfg
         aim_run.add_tag(cfg.TRACK.RUN)
         aim_run.add_tag("test")
         for tag in cfg.TRACK.TAGS: 
@@ -399,25 +399,6 @@ def main():
     cfg.merge_from_list(args.opts)
     purge_cfg(cfg)
     cfg.freeze()
-
-    task = Task.init(
-        project_name="PhD Thesis/3D Semantic Segmentation",
-        task_name="MMTTA",
-        reuse_last_task_id=False,
-        tags=[
-            "data:nuscenes-usa-singapore",
-            # "data:nuscenes-day-night",
-            "v1.0-trainval",
-            # "test",
-            # "official-checkpoints",
-        ],
-        auto_connect_frameworks={
-            "tensorboard": True,
-            "matplotlib": True,
-            "pytorch": True,
-        },
-    )
-    task.connect_configuration(cfg)
 
     output_dir = cfg.OUTPUT_DIR
     # replace '@' with config path

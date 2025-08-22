@@ -207,4 +207,4 @@ _C.MODEL_3D.SCN.num_planes = 7
 # Misc options
 # ---------------------------------------------------------------------------- #
 # @ will be replaced by config path
-_C.OUTPUT_DIR = osp.expanduser('~/workspace/outputs/xmuda_journal/@')
+_C.OUTPUT_DIR = 'runs/@'

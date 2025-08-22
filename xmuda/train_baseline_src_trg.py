@@ -10,6 +10,8 @@ import warnings
 import torch
 import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
+from clearml import Task
+from aim.ext.tensorboard_tracker import Run
 
 from xmuda.common.solver.build import build_optimizer, build_scheduler
 from xmuda.common.utils.checkpoint import CheckpointerV2
@@ -108,6 +110,16 @@ def train(cfg, output_dir='', run_name=''):
     if output_dir:
         tb_dir = osp.join(output_dir, 'tb.{:s}'.format(run_name))
         summary_writer = SummaryWriter(tb_dir)
+        aim_run = Run(
+            repo=cfg.TRACK.URI, 
+            experiment=cfg.TRACK.EXPERIMENT,
+            sync_tensorboard_log_dir=tb_dir
+        )
+        aim_run.add_tag(cfg.TRACK.RUN+'_with_trg')
+        aim_run.add_tag("train")
+        aim_run.add_tag("train")
+        for tag in cfg.TRACK.TAGS: 
+            aim_run.add_tag(tag)
     else:
         summary_writer = None
 
@@ -123,10 +135,12 @@ def train(cfg, output_dir='', run_name=''):
     src_batch_size = round(cfg.TRAIN.SRC_TRG_RATIO * cfg.TRAIN.BATCH_SIZE)
     trg_batch_size = cfg.TRAIN.BATCH_SIZE - src_batch_size
     logger.info('Source batch size: {}, Target batch size: {}'.format(src_batch_size, trg_batch_size))
-    train_dataloader_src = build_dataloader(cfg, mode='train', domain='source', start_iteration=start_iteration,
-                                            different_batch_size=src_batch_size)
-    train_dataloader_trg = build_dataloader(cfg, mode='train', domain='target', start_iteration=start_iteration,
-                                            different_batch_size=trg_batch_size)
+    # train_dataloader_src = build_dataloader(cfg, mode='train', domain='source', start_iteration=start_iteration,
+    #                                         different_batch_size=src_batch_size)
+    # train_dataloader_trg = build_dataloader(cfg, mode='train', domain='target', start_iteration=start_iteration,
+    #                                         different_batch_size=trg_batch_size)
+    train_dataloader_src = build_dataloader(cfg, mode='train', domain='source', start_iteration=start_iteration)
+    train_dataloader_trg = build_dataloader(cfg, mode='train', domain='target', start_iteration=start_iteration)
     val_period = cfg.VAL.PERIOD
     val_dataloader = build_dataloader(cfg, mode='val', domain='target') if val_period > 0 else None
 
@@ -363,6 +377,23 @@ def main():
     purge_cfg(cfg)
     cfg.freeze()
 
+    task = Task.init(
+        project_name="PhD Thesis/3D Semantic Segmentation",
+        task_name="xMUDA-baseline",
+        reuse_last_task_id=False,
+        tags=[
+            "data:nuscenes-usa-singapore",
+            # "data:nuscenes-day-night",
+            "v1.0-trainval",
+        ],
+        auto_connect_frameworks={
+            "tensorboard": True,
+            "matplotlib": True,
+            "pytorch": True,
+        },
+    )
+    task.connect_configuration(cfg)
+
     output_dir = cfg.OUTPUT_DIR
     # replace '@' with config path
     if output_dir:
@@ -387,9 +418,9 @@ def main():
     # check that 2D and 3D model use either both single head or both dual head
     assert cfg.MODEL_2D.DUAL_HEAD == cfg.MODEL_3D.DUAL_HEAD
     # this script only uses CLASS_WEIGHTS_SRC and CLASS_WEIGHTS_TRG
-    assert not cfg.TRAIN.CLASS_WEIGHTS and not cfg.TRAIN.CLASS_WEIGHTS_PL
+    # assert not cfg.TRAIN.CLASS_WEIGHTS and not cfg.TRAIN.CLASS_WEIGHTS_PL
     # this script uses DATASET_SOURCE.TRAIN and DATASET_TARGET.TRAIN
-    assert not cfg.DATASET_TARGET.TRAIN_LABELED and not cfg.DATASET_TARGET.TRAIN_UNLABELED
+    # assert not cfg.DATASET_TARGET.TRAIN_LABELED and not cfg.DATASET_TARGET.TRAIN_UNLABELED
     # no domain adaptation
     assert cfg.TRAIN.XMUDA.lambda_xm_trg == 0 and cfg.TRAIN.XMUDA.lambda_pl == 0 and \
            cfg.TRAIN.XMUDA.lambda_pl == 0 and cfg.TRAIN.XMUDA.lambda_minent == 0
